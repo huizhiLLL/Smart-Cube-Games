@@ -376,4 +376,30 @@ $(document).ready(() => {
       }
     };
   }
+
+  // 向 2048 页面注入 postMessage -> keyboard 转发，解决移动端仅支持触摸的问题
+  if (game2048Iframe?.contentWindow && game2048Iframe?.contentDocument) {
+    const script = game2048Iframe.contentDocument.createElement('script');
+    script.type = 'text/javascript';
+    script.innerHTML = `
+      (function() {
+        if (window.__cubeKeyListenerInstalled) return;
+        window.__cubeKeyListenerInstalled = true;
+        window.addEventListener('message', function(e) {
+          var data = e.data || {};
+          if (data.type !== 'keydown') return;
+          var evt = new KeyboardEvent('keydown', {
+            key: data.key,
+            code: data.code || data.key,
+            keyCode: data.keyCode,
+            which: data.which || data.keyCode,
+            bubbles: true,
+            cancelable: true
+          });
+          window.dispatchEvent(evt);
+        });
+      })();
+    `;
+    game2048Iframe.contentDocument.body.appendChild(script);
+  }
 });
