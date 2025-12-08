@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    {
+      "source": "/((?!assets|2048-master).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gan-Cube-Games</title>
+</head>
+
+<body>
+
+  <div id="app">
+    <!-- 顶部控制栏 -->
+    <header class="top-bar">
+      <div class="top-bar-content">
+        <!-- 左侧：魔方显示 -->
+        <div class="cube-container">
+          <div id="cube"></div>
+        </div>
+
+        <!-- 中间：控制按钮 -->
+        <div class="controls-section">
+          <button id="connect" class="control-btn primary">连接魔方</button>
+          <button id="reset-state" class="control-btn">重置状态</button>
+          <button id="reset-gyro" class="control-btn">重置陀螺仪</button>
+        </div>
+
+        <!-- 右侧：信息显示 -->
+        <div class="info-section">
+          <div class="info-item">
+            <span class="info-label">魔方</span>
+            <span id="hardwareName" class="info-value">-</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">电量</span>
+            <span id="batteryLevel" class="info-value">-</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 主游戏区域 -->
+    <main class="game-area">
+      <!-- 侧边标签栏 -->
+      <aside class="game-sidebar">
+        <div class="sidebar-header">
+          <h3>游戏列表</h3>
+        </div>
+        <nav class="game-tabs">
+          <button class="game-tab active" data-game="2048">
+            <span class="tab-icon">🎮</span>
+            <span class="tab-label">2048</span>
+          </button>
+          <button class="game-tab" data-game="placeholder">
+            <span class="tab-icon">🎯</span>
+            <span class="tab-label">更多游戏</span>
+          </button>
+        </nav>
+      </aside>
+
+      <!-- 游戏容器 -->
+      <div class="game-container">
+        <!-- 2048 游戏 -->
+        <div class="game-content active" id="game-2048">
+          <iframe id="game-2048-iframe" src="/2048-master/game-2048.html" frameborder="0" allow="same-origin"></iframe>
+        </div>
+        
+        <!-- 占位符游戏 -->
+        <div class="game-content" id="game-placeholder">
+          <div class="game-placeholder">
+            <p class="placeholder-text">游戏区域</p>
+            <p class="placeholder-hint">连接魔方后，转动魔方即可控制游戏</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="/src/index.ts"></script>
+
+</body>
+
+</html>
