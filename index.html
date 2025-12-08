@@ -13,12 +13,7 @@
     <!-- 顶部控制栏 -->
     <header class="top-bar">
       <div class="top-bar-content">
-        <!-- 左侧：魔方显示 -->
-        <div class="cube-container">
-          <div id="cube"></div>
-        </div>
-
-        <!-- 中间：控制按钮 -->
+        <!-- 控制按钮 -->
         <div class="controls-section">
           <a href="https://github.com/huizhiLLL/Smart-Cube-Games" target="_blank" rel="noopener noreferrer" class="github-link" title="GitHub">
             <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
@@ -56,11 +51,18 @@
             <span class="tab-icon">🎮</span>
             <span class="tab-label">2048</span>
           </button>
+          <button class="game-tab" data-game="tetris">
+            <span class="tab-icon">🧊</span>
+            <span class="tab-label">俄罗斯方块</span>
+          </button>
           <button class="game-tab" data-game="placeholder">
             <span class="tab-icon">🎯</span>
             <span class="tab-label">更多游戏</span>
           </button>
         </nav>
+
+        <!-- 魔方显示 -->
+        <div id="cube"></div>
       </aside>
 
       <!-- 游戏容器 -->
@@ -69,12 +71,17 @@
         <div class="game-content active" id="game-2048">
           <iframe id="game-2048-iframe" src="/2048-master/game-2048.html" frameborder="0" allow="same-origin"></iframe>
         </div>
+
+        <!-- 俄罗斯方块 -->
+        <div class="game-content" id="game-tetris">
+          <iframe id="game-tetris-iframe" src="/react-tetris-master/docs/index.html" frameborder="0" allow="same-origin"></iframe>
+        </div>
         
         <!-- 占位符游戏 -->
         <div class="game-content" id="game-placeholder">
           <div class="game-placeholder">
-            <p class="placeholder-text">游戏区域</p>
-            <p class="placeholder-hint">连接魔方后，转动魔方即可控制游戏</p>
+            <p class="placeholder-text">更多游戏开发中，敬请期待</p>
+
           </div>
         </div>
       </div>

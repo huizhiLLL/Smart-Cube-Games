@@ -21,7 +21,7 @@ import {
 } from 'gan-web-bluetooth';
 
 import { faceletsToPattern, patternToFacelets } from './utils';
-import { CubeToKeyboardMapper } from './keyboardMapper';
+import { CubeToKeyboardMapper, KeyboardEventOptions } from './keyboardMapper';
 
 // 初始化 Vercel Analytics
 inject();
@@ -106,11 +106,9 @@ async function handleMoveEvent(event: GanCubeEvent) {
     // 游戏控制：将魔方转动转换为游戏控制
     if (keyboardMapper && event.move) {
       const keyOptions = keyboardMapper.mapMoveToKeyboard(event.move);
-      if (keyOptions) {
-        // 根据当前游戏发送控制
-        if (currentGame === '2048' && game2048Iframe) {
-          sendKeyToIframe(game2048Iframe, keyOptions.key, keyOptions.keyCode);
-        }
+      const targetIframe = keyOptions ? getGameIframe(currentGame) : null;
+      if (keyOptions && targetIframe) {
+        sendKeyToIframe(targetIframe, keyOptions);
       }
     }
   }
@@ -265,33 +263,45 @@ $("#cube").on('touchstart', () => {
 // ========== 游戏切换和魔方控制 ==========
 
 let keyboardMapper: CubeToKeyboardMapper | null = null;
-let currentGame: string = '2048';
+let currentGame: '2048' | 'tetris' | 'placeholder' = '2048';
 let game2048Iframe: HTMLIFrameElement | null = null;
+let gameTetrisIframe: HTMLIFrameElement | null = null;
+
+function getGameIframe(gameId: typeof currentGame): HTMLIFrameElement | null {
+  switch (gameId) {
+    case '2048':
+      return game2048Iframe;
+    case 'tetris':
+      return gameTetrisIframe;
+    default:
+      return null;
+  }
+}
 
 // 初始化键盘映射器
 keyboardMapper = new CubeToKeyboardMapper();
 
 // 向 iframe 发送键盘事件
-function sendKeyToIframe(iframe: HTMLIFrameElement, key: string, keyCode: number) {
+function sendKeyToIframe(iframe: HTMLIFrameElement, keyOptions: KeyboardEventOptions) {
   try {
     const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
     if (!iframeDoc) return;
 
     // 创建键盘事件
     const keydownEvent = new KeyboardEvent('keydown', {
-      key: key,
-      code: key,
-      keyCode: keyCode,
-      which: keyCode,
+      key: keyOptions.key,
+      code: keyOptions.code,
+      keyCode: keyOptions.keyCode,
+      which: keyOptions.which,
       bubbles: true,
       cancelable: true
     });
 
     const keyupEvent = new KeyboardEvent('keyup', {
-      key: key,
-      code: key,
-      keyCode: keyCode,
-      which: keyCode,
+      key: keyOptions.key,
+      code: keyOptions.code,
+      keyCode: keyOptions.keyCode,
+      which: keyOptions.which,
       bubbles: true,
       cancelable: true
     });
@@ -303,13 +313,13 @@ function sendKeyToIframe(iframe: HTMLIFrameElement, key: string, keyCode: number
     }, 50);
   } catch (error) {
     // 跨域限制，使用 postMessage
-    iframe.contentWindow?.postMessage({ type: 'keydown', key, keyCode }, '*');
+    iframe.contentWindow?.postMessage({ type: 'keydown', ...keyOptions }, '*');
   }
 }
 
 // 游戏切换功能
 $('.game-tab').on('click', function() {
-  const gameId = $(this).data('game');
+  const gameId = $(this).data('game') as typeof currentGame | undefined;
   if (!gameId) return;
 
   // 更新标签状态
@@ -325,12 +335,15 @@ $('.game-tab').on('click', function() {
   // 获取 iframe 引用
   if (gameId === '2048') {
     game2048Iframe = document.getElementById('game-2048-iframe') as HTMLIFrameElement;
+  } else if (gameId === 'tetris') {
+    gameTetrisIframe = document.getElementById('game-tetris-iframe') as HTMLIFrameElement;
   }
 });
 
 // 初始化时获取 2048 iframe 引用并设置自适应高度
 $(document).ready(() => {
   game2048Iframe = document.getElementById('game-2048-iframe') as HTMLIFrameElement;
+  gameTetrisIframe = document.getElementById('game-tetris-iframe') as HTMLIFrameElement;
   
   // 设置 iframe 自适应高度
   if (game2048Iframe) {
@@ -346,6 +359,20 @@ $(document).ready(() => {
       } catch (error) {
         // 跨域限制，使用默认高度
         console.log('无法访问 iframe 内容，使用默认高度');
+      }
+    };
+  }
+
+  if (gameTetrisIframe) {
+    gameTetrisIframe.onload = function() {
+      try {
+        const iframeDoc = gameTetrisIframe!.contentDocument || gameTetrisIframe!.contentWindow?.document;
+        if (iframeDoc) {
+          // 改为依赖 CSS aspect-ratio，不强制写死高度
+          gameTetrisIframe!.style.height = '';
+        }
+      } catch (error) {
+        console.log('无法访问俄罗斯方块 iframe 内容，使用默认高度');
       }
     };
   }
