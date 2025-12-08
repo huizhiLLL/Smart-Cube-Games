@@ -324,6 +324,14 @@ body {
   display: flex;
 }
 
+.game-note {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: #555;
+  text-align: center;
+  line-height: 1.5;
+}
+
 /* 2048 游戏特定样式 */
 #game-2048 {
   display: none;

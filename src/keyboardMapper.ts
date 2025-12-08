@@ -59,6 +59,26 @@ export class CubeToKeyboardMapper {
       bubbles: true,
       cancelable: true
     });
+
+    // D 转动 -> 空格（硬降/快速下落）
+    this.moveToKeyMap.set('D', {
+      key: ' ',
+      code: 'Space',
+      keyCode: 32,
+      which: 32,
+      bubbles: true,
+      cancelable: true
+    });
+
+    // D' 转动 -> 空格（同上，保持一致性）
+    this.moveToKeyMap.set("D'", {
+      key: ' ',
+      code: 'Space',
+      keyCode: 32,
+      which: 32,
+      bubbles: true,
+      cancelable: true
+    });
   }
 
   /**
