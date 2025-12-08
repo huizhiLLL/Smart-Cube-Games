@@ -207,7 +207,7 @@ body {
 /* ========== 侧边标签栏 ========== */
 .game-sidebar {
   flex-shrink: 0;
-  width: 200px;
+  width: 170px;
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 12px;
@@ -480,11 +480,14 @@ body {
   .game-tabs {
     flex-direction: row;
     overflow-x: auto;
+    gap: 0.25rem;
   }
 
   .game-tab {
     flex-shrink: 0;
-    min-width: 120px;
+    max-width: 90px;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.85rem;
   }
 }
 
@@ -495,6 +498,7 @@ body {
 
   .game-area {
     padding: 1rem;
+    gap: 0.5rem;
   }
 
   .game-container {
@@ -519,6 +523,12 @@ body {
   .control-btn {
     padding: 0.5rem 1rem;
     font-size: 0.8125rem;
+  }
+  .game-tab {
+    padding: 0.65rem 0.75rem;
+    font-size: 0.85rem;
+    width: 80px;
+    height: 100px;
   }
 }
 
