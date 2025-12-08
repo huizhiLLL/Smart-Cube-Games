@@ -5,8 +5,8 @@ import $ from 'jquery';
 import { Subscription, interval } from 'rxjs';
 import { TwistyPlayer } from 'cubing/twisty';
 import { experimentalSolve3x3x3IgnoringCenters } from 'cubing/search';
-
 import * as THREE from 'three';
+import { inject } from '@vercel/analytics';
 
 import {
   now,
@@ -22,6 +22,9 @@ import {
 
 import { faceletsToPattern, patternToFacelets } from './utils';
 import { CubeToKeyboardMapper } from './keyboardMapper';
+
+// 初始化 Vercel Analytics
+inject();
 
 const SOLVED_STATE = "UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB";
 
