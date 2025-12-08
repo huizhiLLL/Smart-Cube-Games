@@ -25,8 +25,15 @@
 2. 连接 GAN 智能魔方
 3. 转动魔方即可控制游戏
 
+> **注意**：测试发现若为移动端，需要预先获取MAC地址进行连接。
+
+## 游戏来源
+
+本项目中的 2048 游戏来源于 [gabrielecirulli/2048](https://github.com/gabrielecirulli/2048)，并根据项目需求进行了适当修改，以支持通过 GAN 智能魔方进行操控。
+
 ## 相关链接
 
-- [gan-web-bluetooth 库](https://github.com/afedotov/gan-web-bluetooth)
-- [gan-cube-sample 示例项目](https://github.com/afedotov/gan-cube-sample)
+- [gan-web-bluetooth](https://github.com/afedotov/gan-web-bluetooth) - GAN 智能魔方蓝牙通信库
+- [gan-cube-sample](https://github.com/afedotov/gan-cube-sample) - GAN 魔方示例项目
+- [2048](https://github.com/gabrielecirulli/2048) - 2048 游戏原始项目
 
